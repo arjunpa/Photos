@@ -23,6 +23,11 @@
 		C2E3CC0124C3520300260CA0 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E3CC0024C3520300260CA0 /* APIService.swift */; };
 		C2E3CC0524C352B900260CA0 /* APIServiceInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E3CC0424C352B900260CA0 /* APIServiceInterface.swift */; };
 		C2E3CC0724C353AE00260CA0 /* APIHTTPDecodableResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E3CC0624C353AE00260CA0 /* APIHTTPDecodableResponse.swift */; };
+		C2E3CC0924C36D4800260CA0 /* PhotoListRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E3CC0824C36D4800260CA0 /* PhotoListRepository.swift */; };
+		C2E3CC0B24C36DE900260CA0 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E3CC0A24C36DE900260CA0 /* Request.swift */; };
+		C2E3CC0E24C3705300260CA0 /* PhotoListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E3CC0D24C3705300260CA0 /* PhotoListResponse.swift */; };
+		C2E3CC1124C378E500260CA0 /* PhotoListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E3CC1024C378E500260CA0 /* PhotoListViewModel.swift */; };
+		C2E3CC1324C3911900260CA0 /* PhotoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E3CC1224C3911900260CA0 /* PhotoViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +65,11 @@
 		C2E3CC0024C3520300260CA0 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		C2E3CC0424C352B900260CA0 /* APIServiceInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIServiceInterface.swift; sourceTree = "<group>"; };
 		C2E3CC0624C353AE00260CA0 /* APIHTTPDecodableResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIHTTPDecodableResponse.swift; sourceTree = "<group>"; };
+		C2E3CC0824C36D4800260CA0 /* PhotoListRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoListRepository.swift; sourceTree = "<group>"; };
+		C2E3CC0A24C36DE900260CA0 /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
+		C2E3CC0D24C3705300260CA0 /* PhotoListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoListResponse.swift; sourceTree = "<group>"; };
+		C2E3CC1024C378E500260CA0 /* PhotoListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoListViewModel.swift; sourceTree = "<group>"; };
+		C2E3CC1224C3911900260CA0 /* PhotoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,13 +126,15 @@
 		C29EC60224C2DDCB003220D8 /* Photos */ = {
 			isa = PBXGroup;
 			children = (
-				C2E3CBF724C30EEC00260CA0 /* Extensions */,
-				C2E3CBF424C30C9000260CA0 /* Foundation */,
-				C2E3CBEF24C2FEB200260CA0 /* Protocols */,
+				C2E3CC0F24C378D200260CA0 /* ViewModels */,
 				C29EC60324C2DDCB003220D8 /* AppDelegate.swift */,
 				C29EC60C24C2DDCD003220D8 /* Assets.xcassets */,
-				C29EC60E24C2DDCD003220D8 /* LaunchScreen.storyboard */,
+				C2E3CBF724C30EEC00260CA0 /* Extensions */,
+				C2E3CBF424C30C9000260CA0 /* Foundation */,
 				C29EC61124C2DDCD003220D8 /* Info.plist */,
+				C29EC60E24C2DDCD003220D8 /* LaunchScreen.storyboard */,
+				C2E3CC0C24C3701A00260CA0 /* Models */,
+				C2E3CBEF24C2FEB200260CA0 /* Protocols */,
 			);
 			path = Photos;
 			sourceTree = "<group>";
@@ -139,10 +151,10 @@
 		C2E3CBEF24C2FEB200260CA0 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				C2E3CBF024C2FF0D00260CA0 /* Requestable.swift */,
-				C2E3CBFA24C3119400260CA0 /* URLFormable.swift */,
-				C2E3CBF224C2FFD100260CA0 /* RequestEncoding.swift */,
 				C2E3CC0424C352B900260CA0 /* APIServiceInterface.swift */,
+				C2E3CBF024C2FF0D00260CA0 /* Requestable.swift */,
+				C2E3CBF224C2FFD100260CA0 /* RequestEncoding.swift */,
+				C2E3CBFA24C3119400260CA0 /* URLFormable.swift */,
 			);
 			name = Protocols;
 			sourceTree = "<group>";
@@ -150,11 +162,13 @@
 		C2E3CBF424C30C9000260CA0 /* Foundation */ = {
 			isa = PBXGroup;
 			children = (
-				C2E3CBF524C30CBD00260CA0 /* RequestURLEncoding.swift */,
-				C2E3CBFE24C3320300260CA0 /* RequestJSONEncoding.swift */,
-				C2E3CBFC24C311F400260CA0 /* APIServiceError.swift */,
-				C2E3CC0024C3520300260CA0 /* APIService.swift */,
 				C2E3CC0624C353AE00260CA0 /* APIHTTPDecodableResponse.swift */,
+				C2E3CC0024C3520300260CA0 /* APIService.swift */,
+				C2E3CBFC24C311F400260CA0 /* APIServiceError.swift */,
+				C2E3CC0824C36D4800260CA0 /* PhotoListRepository.swift */,
+				C2E3CC0A24C36DE900260CA0 /* Request.swift */,
+				C2E3CBFE24C3320300260CA0 /* RequestJSONEncoding.swift */,
+				C2E3CBF524C30CBD00260CA0 /* RequestURLEncoding.swift */,
 			);
 			name = Foundation;
 			sourceTree = "<group>";
@@ -165,6 +179,23 @@
 				C2E3CBF824C310FE00260CA0 /* URLRequest+RequestMethod.swift */,
 			);
 			name = Extensions;
+			sourceTree = "<group>";
+		};
+		C2E3CC0C24C3701A00260CA0 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				C2E3CC0D24C3705300260CA0 /* PhotoListResponse.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		C2E3CC0F24C378D200260CA0 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				C2E3CC1024C378E500260CA0 /* PhotoListViewModel.swift */,
+				C2E3CC1224C3911900260CA0 /* PhotoViewModel.swift */,
+			);
+			name = ViewModels;
 			sourceTree = "<group>";
 		};
 		CBA9846DD721E83909774BB4 /* Frameworks */ = {
@@ -344,15 +375,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				C29EC60424C2DDCB003220D8 /* AppDelegate.swift in Sources */,
+				C2E3CC0B24C36DE900260CA0 /* Request.swift in Sources */,
 				C2E3CBF924C310FE00260CA0 /* URLRequest+RequestMethod.swift in Sources */,
+				C2E3CC0924C36D4800260CA0 /* PhotoListRepository.swift in Sources */,
 				C2E3CBFD24C311F400260CA0 /* APIServiceError.swift in Sources */,
+				C2E3CC1324C3911900260CA0 /* PhotoViewModel.swift in Sources */,
 				C2E3CBF124C2FF0D00260CA0 /* Requestable.swift in Sources */,
 				C2E3CBF624C30CBD00260CA0 /* RequestURLEncoding.swift in Sources */,
 				C2E3CC0724C353AE00260CA0 /* APIHTTPDecodableResponse.swift in Sources */,
 				C2E3CBF324C2FFD100260CA0 /* RequestEncoding.swift in Sources */,
+				C2E3CC0E24C3705300260CA0 /* PhotoListResponse.swift in Sources */,
 				C2E3CBFF24C3320300260CA0 /* RequestJSONEncoding.swift in Sources */,
 				C2E3CC0124C3520300260CA0 /* APIService.swift in Sources */,
 				C2E3CC0524C352B900260CA0 /* APIServiceInterface.swift in Sources */,
+				C2E3CC1124C378E500260CA0 /* PhotoListViewModel.swift in Sources */,
 				C2E3CBFB24C3119400260CA0 /* URLFormable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
