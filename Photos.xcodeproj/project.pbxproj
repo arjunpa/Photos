@@ -28,6 +28,7 @@
 		C2E3CC0E24C3705300260CA0 /* PhotoListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E3CC0D24C3705300260CA0 /* PhotoListResponse.swift */; };
 		C2E3CC1124C378E500260CA0 /* PhotoListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E3CC1024C378E500260CA0 /* PhotoListViewModel.swift */; };
 		C2E3CC1324C3911900260CA0 /* PhotoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E3CC1224C3911900260CA0 /* PhotoViewModel.swift */; };
+		C2E3CC1524C3A2CC00260CA0 /* LocalizedError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2E3CC1424C3A2CC00260CA0 /* LocalizedError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +71,7 @@
 		C2E3CC0D24C3705300260CA0 /* PhotoListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoListResponse.swift; sourceTree = "<group>"; };
 		C2E3CC1024C378E500260CA0 /* PhotoListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoListViewModel.swift; sourceTree = "<group>"; };
 		C2E3CC1224C3911900260CA0 /* PhotoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewModel.swift; sourceTree = "<group>"; };
+		C2E3CC1424C3A2CC00260CA0 /* LocalizedError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,6 +167,7 @@
 				C2E3CC0624C353AE00260CA0 /* APIHTTPDecodableResponse.swift */,
 				C2E3CC0024C3520300260CA0 /* APIService.swift */,
 				C2E3CBFC24C311F400260CA0 /* APIServiceError.swift */,
+				C2E3CC1424C3A2CC00260CA0 /* LocalizedError.swift */,
 				C2E3CC0824C36D4800260CA0 /* PhotoListRepository.swift */,
 				C2E3CC0A24C36DE900260CA0 /* Request.swift */,
 				C2E3CBFE24C3320300260CA0 /* RequestJSONEncoding.swift */,
@@ -375,6 +378,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C29EC60424C2DDCB003220D8 /* AppDelegate.swift in Sources */,
+				C2E3CC1524C3A2CC00260CA0 /* LocalizedError.swift in Sources */,
 				C2E3CC0B24C36DE900260CA0 /* Request.swift in Sources */,
 				C2E3CBF924C310FE00260CA0 /* URLRequest+RequestMethod.swift in Sources */,
 				C2E3CC0924C36D4800260CA0 /* PhotoListRepository.swift in Sources */,
