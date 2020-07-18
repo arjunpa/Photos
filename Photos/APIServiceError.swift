@@ -19,5 +19,13 @@ enum APIServiceError: Error {
     enum URLEncodingError: Error {
         case failed(URLEncodingErrorReason)
     }
+    
+    enum APIResponseErrorReason: Error {
+        case httpStatusCodeFailure
+    }
+    
+    enum APIResponseError: Error {
+        case failed(APIResponseErrorReason)
+    }
 }
 
