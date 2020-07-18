@@ -19,10 +19,13 @@ final class APIService: APIServiceInterface {
     
     func request<T: Decodable>(with request: Requestable) -> Single<APIHTTPDecodableResponse<T>> {
         return Single<APIHTTPDecodableResponse<T>>.create { single -> Disposable in
+            
+            var dataTask: URLSessionDataTask?
+            
             do {
-                
                 let urlRequest = try request.asURLRequest()
-                self.session.dataTask(with: urlRequest) { data, response, error in
+                
+                let responseHandler: (Data?, URLResponse?, Error?) -> Void = { data, response, error in
                     if let error = error {
                         single(.error(error))
                         return
@@ -40,11 +43,15 @@ final class APIService: APIServiceInterface {
                     }
                 }
                 
+                dataTask = self.session.dataTask(with: urlRequest, completionHandler: responseHandler)
+                
+                dataTask?.resume()
+                
             } catch {
                 single(.error(error))
             }
             return Disposables.create {
-                
+                dataTask?.cancel()
             }
         }
     }
