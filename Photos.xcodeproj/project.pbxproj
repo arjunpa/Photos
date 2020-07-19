@@ -14,6 +14,7 @@
 		C2070BB724C4108100D14940 /* SafeDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2070BB624C4108100D14940 /* SafeDecodable.swift */; };
 		C2070BB924C41B8500D14940 /* Data+UTF8Representation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2070BB824C41B8500D14940 /* Data+UTF8Representation.swift */; };
 		C2070BBB24C428E500D14940 /* PhotoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2070BBA24C428E500D14940 /* PhotoTableViewCell.swift */; };
+		C292675824C446D2007B131E /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C292675724C446D2007B131E /* ImageDownloader.swift */; };
 		C29EC60424C2DDCB003220D8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29EC60324C2DDCB003220D8 /* AppDelegate.swift */; };
 		C29EC60D24C2DDCD003220D8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C29EC60C24C2DDCD003220D8 /* Assets.xcassets */; };
 		C29EC61024C2DDCD003220D8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C29EC60E24C2DDCD003220D8 /* LaunchScreen.storyboard */; };
@@ -59,6 +60,7 @@
 		C2070BB624C4108100D14940 /* SafeDecodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeDecodable.swift; sourceTree = "<group>"; };
 		C2070BB824C41B8500D14940 /* Data+UTF8Representation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+UTF8Representation.swift"; sourceTree = "<group>"; };
 		C2070BBA24C428E500D14940 /* PhotoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoTableViewCell.swift; sourceTree = "<group>"; };
+		C292675724C446D2007B131E /* ImageDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
 		C29EC60024C2DDCB003220D8 /* Photos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Photos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C29EC60324C2DDCB003220D8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C29EC60C24C2DDCD003220D8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -148,17 +150,18 @@
 		C29EC60224C2DDCB003220D8 /* Photos */ = {
 			isa = PBXGroup;
 			children = (
-				C2070BB124C40B5400D14940 /* Views */,
-				C2E3CC0F24C378D200260CA0 /* ViewModels */,
 				C29EC60324C2DDCB003220D8 /* AppDelegate.swift */,
+				C292675724C446D2007B131E /* ImageDownloader.swift */,
 				C29EC60C24C2DDCD003220D8 /* Assets.xcassets */,
 				C2E3CBF724C30EEC00260CA0 /* Extensions */,
 				C2E3CBF424C30C9000260CA0 /* Foundation */,
 				C29EC61124C2DDCD003220D8 /* Info.plist */,
 				C29EC60E24C2DDCD003220D8 /* LaunchScreen.storyboard */,
 				C2E3CC0C24C3701A00260CA0 /* Models */,
-				C2E3CBEF24C2FEB200260CA0 /* Protocols */,
 				C2E3CC1624C3AA2700260CA0 /* PhotoListViewController.swift */,
+				C2E3CBEF24C2FEB200260CA0 /* Protocols */,
+				C2E3CC0F24C378D200260CA0 /* ViewModels */,
+				C2070BB124C40B5400D14940 /* Views */,
 			);
 			path = Photos;
 			sourceTree = "<group>";
@@ -204,8 +207,8 @@
 		C2E3CBF724C30EEC00260CA0 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				C2E3CBF824C310FE00260CA0 /* URLRequest+RequestMethod.swift */,
 				C2070BB824C41B8500D14940 /* Data+UTF8Representation.swift */,
+				C2E3CBF824C310FE00260CA0 /* URLRequest+RequestMethod.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -413,6 +416,7 @@
 				C2E3CBFD24C311F400260CA0 /* APIServiceError.swift in Sources */,
 				C2E3CC1324C3911900260CA0 /* PhotoViewModel.swift in Sources */,
 				C2E3CBF124C2FF0D00260CA0 /* Requestable.swift in Sources */,
+				C292675824C446D2007B131E /* ImageDownloader.swift in Sources */,
 				C2E3CBF624C30CBD00260CA0 /* RequestURLEncoding.swift in Sources */,
 				C2070BB024C40A9000D14940 /* UITableViewCell+ReuseIdentifier.swift in Sources */,
 				C2070BB924C41B8500D14940 /* Data+UTF8Representation.swift in Sources */,

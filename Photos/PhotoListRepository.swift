@@ -15,6 +15,8 @@ protocol PhotoListRepositoryInterface {
 
 final class PhotoListRepository: PhotoListRepositoryInterface  {
     
+    private typealias Response = APIHTTPDecodableResponse<PhotoListResponse>
+    
     private let apiService: APIService
     
     init(with apiService: APIService) {
@@ -27,11 +29,12 @@ final class PhotoListRepository: PhotoListRepositoryInterface  {
                             parameters: nil,
                             headers: nil,
                             encoding: RequestURLEncoding())
-        return self.apiService.request(with: request)
-               .asObservable()
-               .flatMap { (response: APIHTTPDecodableResponse<PhotoListResponse>) -> Observable<PhotoListResponse> in
-                return Observable.just(response.decoded)
-        }.share()
+        return self.apiService
+                        .request(with: request)
+                        .asObservable()
+                        .flatMap { (response: Response) -> Observable<PhotoListResponse> in
+                            return Observable.just(response.decoded)
+        }
     }
 }
  

@@ -6,6 +6,7 @@ use_frameworks!
 
 pod 'RxSwift', '5.1.1'
 pod 'RxCocoa', '5.1.1'
+pod 'Kingfisher', '5.14.1'
 
 # Pods
 target 'PhotosTests' do

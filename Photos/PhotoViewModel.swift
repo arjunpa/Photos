@@ -7,27 +7,59 @@
 //
 
 import Foundation
+import RxCocoa
+import RxSwift
 
 protocol PhotoViewModelInterface {
-    var title: String { get }
-    var description: String? { get }
-    var imageURL: URL? { get }
+    var title: Driver<String> { get }
+    var description: Driver<String?> { get }
+    var image: Driver<UIImage?>  { get }
+    func downloadImage()
 }
 
 final class PhotoViewModel: PhotoViewModelInterface {
     
-    let title: String
+    var title: Driver<String> {
+        return self.titleRelaySubject.asDriver(onErrorJustReturn: "")
+    }
     
-    let description: String?
+    var description: Driver<String?> {
+        return self.descriptionRelaySubject.asDriver(onErrorJustReturn: nil)
+    }
     
-    let imageURL: URL?
+    var image: Driver<UIImage?> {
+        return self.imageRelaySubject.asDriver(onErrorJustReturn: nil)
+    }
     
     private let photo: Photo
     
-    init(photo: Photo) {
+    private let imageDownloader: ImageDownloader
+    
+    private let titleRelaySubject: BehaviorRelay<String>
+    
+    private let descriptionRelaySubject: BehaviorRelay<String?>
+    
+    private let imageRelaySubject = BehaviorRelay<UIImage?>(value: nil)
+    
+    init(photo: Photo, imageDownloader: ImageDownloader = .default) {
         self.photo = photo
-        self.title = photo.title
-        self.description = photo.description
-        self.imageURL = photo.imageHref
+        self.titleRelaySubject = BehaviorRelay<String>(value: photo.title)
+        self.descriptionRelaySubject = BehaviorRelay<String?>(value: photo.description)
+        self.imageDownloader = imageDownloader
+    }
+    
+    func downloadImage() {
+        guard let imageURL = self.photo.imageHref else {
+            self.imageRelaySubject.accept(nil)
+            return
+        }
+        _ = self.imageDownloader
+                    .download(with: imageURL)
+                    .subscribe(onSuccess: { [weak self] image in
+                        self?.imageRelaySubject.accept(image)
+                     },
+                               onError: { [weak self] _ in
+                        self?.imageRelaySubject.accept(nil)
+                     })
     }
 }

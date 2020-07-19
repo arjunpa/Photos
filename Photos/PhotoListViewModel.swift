@@ -44,11 +44,11 @@ final class PhotoListViewModel: PhotoListViewModelInterface  {
     func fetchPhotos() {
         _ = self.repository
             .fetchPhotos()
-            .subscribe(onNext: { response in
-                self.photoViewModelSubject.onNext(response.rows.map({ PhotoViewModel(photo: $0) }))
+            .subscribe(onNext: { [weak self] response in
+                self?.photoViewModelSubject.onNext(response.rows.map({ PhotoViewModel(photo: $0) }))
             },
-            onError: { _ in
-                self.errorSubject.onNext(LocalizedError.generic)
+            onError: { [weak self] _ in
+                self?.errorSubject.onNext(LocalizedError.generic)
             },
             onCompleted: nil,
             onDisposed: nil)

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RxSwift
 
 final class PhotoTableViewCell: UITableViewCell {
     
@@ -39,6 +40,8 @@ final class PhotoTableViewCell: UITableViewCell {
         return label
     }()
     
+    private var disposeBag = DisposeBag()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.setupConstraints()
@@ -50,15 +53,41 @@ final class PhotoTableViewCell: UITableViewCell {
     }
     
     func configure(with viewModel: PhotoViewModelInterface) {
-        self.titleLabel.text = viewModel.title
+        viewModel
+            .title
+            .drive(self.titleLabel.rx.text)
+            .disposed(by: self.disposeBag)
         
-        if let description = viewModel.description {
-            self.labelStackView.addArrangedSubview(self.descriptionLabel)
-            self.descriptionLabel.text = description
-        } else {
-            self.descriptionLabel.removeFromSuperview()
-        }
+        viewModel
+            .description
+            .asObservable()
+            .subscribe(onNext: { [weak self] description in
+                guard let self = self else { return }
+                if let description = description {
+                    self.descriptionLabel.text = description
+                    self.labelStackView.addArrangedSubview(self.descriptionLabel)
+                } else {
+                    self.descriptionLabel.removeFromSuperview()
+                }
+            },
+            onError: nil,
+            onCompleted: nil,
+            onDisposed: nil)
+            .disposed(by: self.disposeBag)
+        
+        self.photoImageView.image = nil
+        
+        viewModel
+            .image
+            .drive(self.photoImageView.rx.image)
+            .disposed(by: self.disposeBag)
+        
+        viewModel.downloadImage()
         self.labelStackView.layoutIfNeeded()
+    }
+    
+    override func prepareForReuse() {
+        self.disposeBag = DisposeBag()
     }
     
     private func setupConstraints() {
