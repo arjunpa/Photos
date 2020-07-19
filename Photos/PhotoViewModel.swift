@@ -15,6 +15,7 @@ protocol PhotoViewModelInterface {
     var description: Driver<String?> { get }
     var image: Driver<UIImage?>  { get }
     func downloadImage()
+    func cancelDownload()
 }
 
 final class PhotoViewModel: PhotoViewModelInterface {
@@ -41,6 +42,10 @@ final class PhotoViewModel: PhotoViewModelInterface {
     
     private let imageRelaySubject = BehaviorRelay<UIImage?>(value: nil)
     
+    private let disposeBag = DisposeBag()
+    
+    private var downloadTask: BehaviorRelay<ImageDownloadCancellable?>?
+    
     init(photo: Photo, imageDownloader: ImageDownloader = .default) {
         self.photo = photo
         self.titleRelaySubject = BehaviorRelay<String>(value: photo.title)
@@ -53,13 +58,17 @@ final class PhotoViewModel: PhotoViewModelInterface {
             self.imageRelaySubject.accept(nil)
             return
         }
-        _ = self.imageDownloader
-                    .download(with: imageURL)
-                    .subscribe(onSuccess: { [weak self] image in
-                        self?.imageRelaySubject.accept(image)
+        let result = self.imageDownloader.download(with: imageURL)
+        result.event.subscribe(onSuccess: { [weak self] image in
+                                    self?.imageRelaySubject.accept(image)
                      },
                                onError: { [weak self] _ in
-                        self?.imageRelaySubject.accept(nil)
-                     })
+                                    self?.imageRelaySubject.accept(nil)
+        }).disposed(by: self.disposeBag)
+        self.downloadTask = result.task
+    }
+    
+    func cancelDownload() {
+        self.downloadTask?.value?.cancel()
     }
 }

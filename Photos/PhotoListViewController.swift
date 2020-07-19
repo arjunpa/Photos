@@ -65,11 +65,22 @@ final class PhotoListViewController: UIViewController {
         
         viewModel
             .photoViewModel
-            .drive(photoListView.rx.items(cellIdentifier: PhotoTableViewCell.reuseIdentifier,
+            .drive(self.photoListView.rx.items(cellIdentifier: PhotoTableViewCell.reuseIdentifier,
                                           cellType: PhotoTableViewCell.self)) { (_, photoViewModel, cell) in
                                             cell.configure(with: photoViewModel)
         }
         .disposed(by: self.disposeBag)
+        
+        self
+            .photoListView
+            .rx
+            .didEndDisplayingCell
+            .subscribe(onNext: { (_, indexPath) in
+                viewModel.cancelDownload(at: indexPath.row)
+        },             onError: nil,
+                       onCompleted: nil,
+                       onDisposed: nil)
+            .disposed(by: self.disposeBag)
         
         viewModel
             .title
@@ -82,9 +93,14 @@ final class PhotoListViewController: UIViewController {
             .drive(self.refreshControl.rx.isEnabled)
             .disposed(by: self.disposeBag)
         
-        self.refreshControl.rx.controlEvent(.valueChanged).subscribe { [weak self] _ in
-            self?.listViewModel?.fetchPhotos(ignoreCache: true)
-        }.disposed(by: self.disposeBag)
+        self
+            .refreshControl
+            .rx
+            .controlEvent(.valueChanged)
+            .subscribe { [weak self] _ in
+                self?.listViewModel?.fetchPhotos(ignoreCache: true)
+            }
+            .disposed(by: self.disposeBag)
         
         viewModel
             .isLoading
