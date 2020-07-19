@@ -36,7 +36,6 @@ final class PhotoListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupView()
-        self.listViewModel?.fetchPhotos()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -44,6 +43,7 @@ final class PhotoListViewController: UIViewController {
         
         //https://github.com/RxSwiftCommunity/RxDataSources/issues/331
         self.setupBindings()
+        self.listViewModel?.fetchPhotos()
     }
     
     private func setupView() {
@@ -54,14 +54,13 @@ final class PhotoListViewController: UIViewController {
             self.photoListView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             self.photoListView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
-        self.photoListView.register(UITableViewCell.self, forCellReuseIdentifier: UITableViewCell.reuseIdentifier)
+        self.photoListView.register(PhotoTableViewCell.self, forCellReuseIdentifier: PhotoTableViewCell.reuseIdentifier)
     }
     
     private func setupBindings() {
         self.listViewModel?.photoViewModel
-        .drive(photoListView.rx.items(cellIdentifier: UITableViewCell.reuseIdentifier, cellType: UITableViewCell.self)) { (_, photoViewModel, cell) in
-            cell.textLabel?.text = photoViewModel.title
-            cell.detailTextLabel?.text = photoViewModel.description
+        .drive(photoListView.rx.items(cellIdentifier: PhotoTableViewCell.reuseIdentifier, cellType: PhotoTableViewCell.self)) { (_, photoViewModel, cell) in
+            cell.configure(with: photoViewModel)
         }.disposed(by: self.disposeBag)
     }
 }
