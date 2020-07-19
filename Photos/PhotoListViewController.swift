@@ -16,6 +16,8 @@ final class PhotoListViewController: UIViewController {
     
     private let disposeBag = DisposeBag()
     
+    private let refreshControl = UIRefreshControl()
+    
     private let photoListView: UITableView = {
         let tableView = UITableView(frame: .zero)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -55,12 +57,46 @@ final class PhotoListViewController: UIViewController {
             self.photoListView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
         self.photoListView.register(PhotoTableViewCell.self, forCellReuseIdentifier: PhotoTableViewCell.reuseIdentifier)
+        self.photoListView.refreshControl = self.refreshControl
     }
     
     private func setupBindings() {
-        self.listViewModel?.photoViewModel
-        .drive(photoListView.rx.items(cellIdentifier: PhotoTableViewCell.reuseIdentifier, cellType: PhotoTableViewCell.self)) { (_, photoViewModel, cell) in
-            cell.configure(with: photoViewModel)
+        guard let viewModel = self.listViewModel else { return }
+        
+        viewModel
+            .photoViewModel
+            .drive(photoListView.rx.items(cellIdentifier: PhotoTableViewCell.reuseIdentifier,
+                                          cellType: PhotoTableViewCell.self)) { (_, photoViewModel, cell) in
+                                            cell.configure(with: photoViewModel)
+        }
+        .disposed(by: self.disposeBag)
+        
+        viewModel
+            .title
+            .drive(self.navigationItem.rx.title)
+            .disposed(by: self.disposeBag)
+        
+        viewModel
+            .isLoading
+            .map({ !$0 })
+            .drive(self.refreshControl.rx.isEnabled)
+            .disposed(by: self.disposeBag)
+        
+        self.refreshControl.rx.controlEvent(.valueChanged).subscribe { [weak self] _ in
+            self?.listViewModel?.fetchPhotos()
         }.disposed(by: self.disposeBag)
+        
+        viewModel
+            .isLoading
+            .drive(onNext: { [weak self] isLoading in
+                guard !isLoading else {
+                self?.refreshControl.beginRefreshing()
+                    return
+                }
+                self?.refreshControl.endRefreshing()
+            },
+                   onCompleted: nil,
+                   onDisposed: nil)
+            .disposed(by: self.disposeBag)
     }
 }

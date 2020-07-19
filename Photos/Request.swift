@@ -34,6 +34,7 @@ struct Request: Requestable {
         if let parameters = self.parameters {
             request = try self.encoding.encode(request, with: parameters)
         }
+        request.cachePolicy = .reloadIgnoringLocalAndRemoteCacheData
         return request
     }
 }

@@ -11,6 +11,8 @@ import RxSwift
 import RxCocoa
 
 protocol PhotoListViewModelInterface {
+    var title: Driver<String?> { get }
+    var isLoading: Driver<Bool> { get }
     var photoViewModel: Driver<[PhotoViewModelInterface]> { get }
     var error: Driver<LocalizedError?> { get }
     func fetchPhotos()
@@ -18,37 +20,55 @@ protocol PhotoListViewModelInterface {
 
 final class PhotoListViewModel: PhotoListViewModelInterface  {
     
+    var title: Driver<String?> {
+        return self.titleRelay.asDriver(onErrorJustReturn: nil)
+    }
+    
+    var isLoading: Driver<Bool> {
+        return self.isLoadingRelay.asDriver()
+    }
+    
     var photoViewModel: Driver<[PhotoViewModelInterface]> {
-        self.photoViewModelSubject
+        self.photoViewModelRelay
         .flatMap { (viewModel: [PhotoViewModel]) -> Observable<[PhotoViewModelInterface]> in
             return Observable.just(viewModel)
         }.asDriver(onErrorJustReturn: [])
     }
     
     var error: Driver<LocalizedError?> {
-        return self.errorSubject.asDriver(onErrorJustReturn: nil)
+        return self.errorRelay.asDriver(onErrorJustReturn: nil)
     }
     
     private let repository: PhotoListRepositoryInterface
     
     private let disposeBag = DisposeBag()
     
-    private let photoViewModelSubject = PublishSubject<[PhotoViewModel]>()
+    private let titleRelay = BehaviorRelay<String?>(value: nil)
     
-    private let errorSubject = PublishSubject<LocalizedError?>()
+    private let photoViewModelRelay = BehaviorRelay<[PhotoViewModel]>(value: [])
+    
+    private let errorRelay = BehaviorRelay<LocalizedError?>(value: nil)
+    
+    private let isLoadingRelay = BehaviorRelay<Bool>(value: false)
     
     init(with repository: PhotoListRepositoryInterface) {
         self.repository = repository
     }
     
     func fetchPhotos() {
+        self.isLoadingRelay.accept(true)
         _ = self.repository
             .fetchPhotos()
             .subscribe(onNext: { [weak self] response in
-                self?.photoViewModelSubject.onNext(response.rows.map({ PhotoViewModel(photo: $0) }))
+                self?
+                    .photoViewModelRelay
+                    .accept(response.rows.map({ PhotoViewModel(photo: $0) }))
+                
+                self?.titleRelay.accept(response.title)
+                self?.isLoadingRelay.accept(false)
             },
             onError: { [weak self] _ in
-                self?.errorSubject.onNext(LocalizedError.generic)
+                self?.errorRelay.accept(LocalizedError.generic)
             },
             onCompleted: nil,
             onDisposed: nil)
