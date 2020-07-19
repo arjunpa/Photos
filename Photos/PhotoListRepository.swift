@@ -22,7 +22,11 @@ final class PhotoListRepository: PhotoListRepositoryInterface  {
     }
     
     func fetchPhotos() -> Observable<PhotoListResponse> {
-        let request = Request(url: "", method: .get, parameters: nil, headers: nil, encoding: RequestURLEncoding())
+        let request = Request(url: APIEndPoint.photosAPI,
+                            method: .get,
+                            parameters: nil,
+                            headers: nil,
+                            encoding: RequestURLEncoding())
         return self.apiService.request(with: request)
                .asObservable()
                .flatMap { (response: APIHTTPDecodableResponse<PhotoListResponse>) -> Observable<PhotoListResponse> in

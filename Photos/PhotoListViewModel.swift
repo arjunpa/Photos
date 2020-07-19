@@ -13,9 +13,10 @@ import RxCocoa
 protocol PhotoListViewModelInterface {
     var photoViewModel: Driver<[PhotoViewModelInterface]> { get }
     var error: Driver<LocalizedError?> { get }
+    func fetchPhotos()
 }
 
-final class PhotoListViewModel {
+final class PhotoListViewModel: PhotoListViewModelInterface  {
     
     var photoViewModel: Driver<[PhotoViewModelInterface]> {
         self.photoViewModelSubject

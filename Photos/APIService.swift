@@ -34,10 +34,10 @@ final class APIService: APIServiceInterface {
                         single(.error(APIServiceError.APIResponseError.failed(.httpStatusCodeFailure)))
                         return
                     }
-                    let data = data ?? Data()
+                    let responseData = data?.utf8Representation ?? Data()
                     do {
-                        let decoded = try JSONDecoder().decode(T.self, from: data)
-                        single(.success(APIHTTPDecodableResponse<T>(data: data, decoded: decoded, httpResponse: httpResponse)))
+                        let decoded = try JSONDecoder().decode(T.self, from: responseData)
+                        single(.success(APIHTTPDecodableResponse<T>(data: responseData, decoded: decoded, httpResponse: httpResponse)))
                     } catch {
                         single(.error(error))
                     }
