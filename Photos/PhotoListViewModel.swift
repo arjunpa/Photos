@@ -15,7 +15,7 @@ protocol PhotoListViewModelInterface {
     var isLoading: Driver<Bool> { get }
     var photoViewModel: Driver<[PhotoViewModelInterface]> { get }
     var error: Driver<LocalizedError?> { get }
-    func fetchPhotos()
+    func fetchPhotos(ignoreCache: Bool)
 }
 
 final class PhotoListViewModel: PhotoListViewModelInterface  {
@@ -55,10 +55,10 @@ final class PhotoListViewModel: PhotoListViewModelInterface  {
         self.repository = repository
     }
     
-    func fetchPhotos() {
+    func fetchPhotos(ignoreCache: Bool) {
         self.isLoadingRelay.accept(true)
         _ = self.repository
-            .fetchPhotos()
+            .fetchPhotos(ignoreCache: ignoreCache)
             .subscribe(onNext: { [weak self] response in
                 self?
                     .photoViewModelRelay

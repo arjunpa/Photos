@@ -10,7 +10,7 @@ import Foundation
 import RxSwift
 
 protocol PhotoListRepositoryInterface {
-    func fetchPhotos() -> Observable<PhotoListResponse>
+    func fetchPhotos(ignoreCache: Bool) -> Observable<PhotoListResponse>
 }
 
 final class PhotoListRepository: PhotoListRepositoryInterface  {
@@ -23,12 +23,13 @@ final class PhotoListRepository: PhotoListRepositoryInterface  {
         self.apiService = apiService
     }
     
-    func fetchPhotos() -> Observable<PhotoListResponse> {
+    func fetchPhotos(ignoreCache: Bool) -> Observable<PhotoListResponse> {
         let request = Request(url: APIEndPoint.photosAPI,
                             method: .get,
                             parameters: nil,
                             headers: nil,
-                            encoding: RequestURLEncoding())
+                            encoding: RequestURLEncoding(),
+                            ignoreCache: ignoreCache)
         return self.apiService
                         .request(with: request)
                         .asObservable()

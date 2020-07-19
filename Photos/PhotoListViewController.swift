@@ -45,7 +45,7 @@ final class PhotoListViewController: UIViewController {
         
         //https://github.com/RxSwiftCommunity/RxDataSources/issues/331
         self.setupBindings()
-        self.listViewModel?.fetchPhotos()
+        self.listViewModel?.fetchPhotos(ignoreCache: false)
     }
     
     private func setupView() {
@@ -83,7 +83,7 @@ final class PhotoListViewController: UIViewController {
             .disposed(by: self.disposeBag)
         
         self.refreshControl.rx.controlEvent(.valueChanged).subscribe { [weak self] _ in
-            self?.listViewModel?.fetchPhotos()
+            self?.listViewModel?.fetchPhotos(ignoreCache: true)
         }.disposed(by: self.disposeBag)
         
         viewModel

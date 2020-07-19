@@ -15,17 +15,20 @@ struct Request: Requestable {
     let parameters: RequestParameters?
     let headers: RequestHeaders?
     let encoding: RequestEncoding
+    let ignoreCache: Bool
     
     init(url: URLFormable,
-         method: RequestMethod,
-         parameters: RequestParameters?,
-         headers: RequestHeaders?,
-         encoding: RequestEncoding) {
+        method: RequestMethod,
+        parameters: RequestParameters?,
+        headers: RequestHeaders?,
+        encoding: RequestEncoding,
+        ignoreCache: Bool = false) {
         self.url = url
         self.httpMethod = method
         self.parameters = parameters
         self.headers = headers
         self.encoding = encoding
+        self.ignoreCache = ignoreCache
     }
     
     func asURLRequest() throws -> URLRequest {
@@ -34,7 +37,7 @@ struct Request: Requestable {
         if let parameters = self.parameters {
             request = try self.encoding.encode(request, with: parameters)
         }
-        request.cachePolicy = .reloadIgnoringLocalAndRemoteCacheData
+        request.cachePolicy = self.ignoreCache ? .reloadIgnoringLocalAndRemoteCacheData : .returnCacheDataElseLoad
         return request
     }
 }
