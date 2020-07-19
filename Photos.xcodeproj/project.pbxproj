@@ -151,7 +151,6 @@
 			isa = PBXGroup;
 			children = (
 				C29EC60324C2DDCB003220D8 /* AppDelegate.swift */,
-				C292675724C446D2007B131E /* ImageDownloader.swift */,
 				C29EC60C24C2DDCD003220D8 /* Assets.xcassets */,
 				C2E3CBF724C30EEC00260CA0 /* Extensions */,
 				C2E3CBF424C30C9000260CA0 /* Foundation */,
@@ -194,6 +193,7 @@
 				C2E3CC0624C353AE00260CA0 /* APIHTTPDecodableResponse.swift */,
 				C2E3CC0024C3520300260CA0 /* APIService.swift */,
 				C2E3CBFC24C311F400260CA0 /* APIServiceError.swift */,
+				C292675724C446D2007B131E /* ImageDownloader.swift */,
 				C2E3CC1424C3A2CC00260CA0 /* LocalizedError.swift */,
 				C2E3CC0824C36D4800260CA0 /* PhotoListRepository.swift */,
 				C2E3CC0A24C36DE900260CA0 /* Request.swift */,
