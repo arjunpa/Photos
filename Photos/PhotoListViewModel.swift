@@ -21,24 +21,13 @@ protocol PhotoListViewModelInterface {
 
 final class PhotoListViewModel: PhotoListViewModelInterface  {
     
-    var title: Driver<String?> {
-        return self.titleRelay.asDriver(onErrorJustReturn: nil)
-    }
+    let title: Driver<String?>
     
-    var isLoading: Driver<Bool> {
-        return self.isLoadingRelay.asDriver()
-    }
+    let isLoading: Driver<Bool>
     
-    var photoViewModel: Driver<[PhotoViewModelInterface]> {
-        self.photoViewModelRelay
-        .flatMap { (viewModel: [PhotoViewModel]) -> Observable<[PhotoViewModelInterface]> in
-            return Observable.just(viewModel)
-        }.asDriver(onErrorJustReturn: [])
-    }
+    let photoViewModel: Driver<[PhotoViewModelInterface]>
     
-    var error: Driver<LocalizedError?> {
-        return self.errorRelay.asDriver(onErrorJustReturn: nil)
-    }
+    let error: Driver<LocalizedError?>
     
     private let repository: PhotoListRepositoryInterface
     
@@ -54,6 +43,15 @@ final class PhotoListViewModel: PhotoListViewModelInterface  {
     
     init(with repository: PhotoListRepositoryInterface) {
         self.repository = repository
+        self.title = self.titleRelay.asDriver(onErrorJustReturn: nil)
+        self.isLoading = self.isLoadingRelay.asDriver()
+        self.photoViewModel = self.photoViewModelRelay
+                                    .flatMap { (viewModel: [PhotoViewModel]) -> Observable<[PhotoViewModelInterface]> in
+                                                return Observable.just(viewModel)
+                                              }
+                                     .asDriver(onErrorJustReturn: [])
+        
+        self.error = self.errorRelay.asDriver(onErrorJustReturn: nil)
     }
     
     func fetchPhotos(ignoreCache: Bool) {
@@ -70,6 +68,7 @@ final class PhotoListViewModel: PhotoListViewModelInterface  {
                 self?.isLoadingRelay.accept(false)
             },
             onError: { [weak self] _ in
+                self?.isLoadingRelay.accept(false)
                 self?.errorRelay.accept(LocalizedError.generic)
             },
             onCompleted: nil,

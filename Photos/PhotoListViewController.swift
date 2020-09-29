@@ -114,5 +114,24 @@ final class PhotoListViewController: UIViewController {
                    onCompleted: nil,
                    onDisposed: nil)
             .disposed(by: self.disposeBag)
+        
+        viewModel
+             .error
+            .drive(onNext: { [weak self] error in
+                guard let error = error else { return }
+                self?.handleError(error: error)
+            },
+                    onCompleted: nil,
+                    onDisposed: nil)
+            .disposed(by: self.disposeBag)
+    }
+    
+    private func handleError(error: LocalizedError) {
+        let alertController = UIAlertController(title: error.title,
+                                                message: error.body,
+                                                preferredStyle: .alert)
+        let alertAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(alertAction)
+        self.present(alertController, animated: true, completion: nil)
     }
 }

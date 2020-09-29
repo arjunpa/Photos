@@ -17,9 +17,9 @@ final class PhotoListRepository: PhotoListRepositoryInterface  {
     
     private typealias Response = APIHTTPDecodableResponse<PhotoListResponse>
     
-    private let apiService: APIService
+    private let apiService: APIServiceInterface
     
-    init(with apiService: APIService) {
+    init(with apiService: APIServiceInterface) {
         self.apiService = apiService
     }
     
@@ -33,7 +33,7 @@ final class PhotoListRepository: PhotoListRepositoryInterface  {
         return self.apiService
                         .request(with: request)
                         .asObservable()
-                        .flatMap { (response: Response) -> Observable<PhotoListResponse> in
+                        .flatMapLatest { (response: Response) -> Observable<PhotoListResponse> in
                             return Observable.just(response.decoded)
         }
     }
