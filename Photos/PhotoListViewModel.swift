@@ -49,7 +49,7 @@ final class PhotoListViewModel: PhotoListViewModelInterface  {
                                     .flatMap { (viewModel: [PhotoViewModel]) -> Observable<[PhotoViewModelInterface]> in
                                                 return Observable.just(viewModel)
                                               }
-                                     .asDriver(onErrorJustReturn: [])
+                                    .asDriver(onErrorJustReturn: [])
         
         self.error = self.errorRelay.asDriver(onErrorJustReturn: nil)
     }
