@@ -127,6 +127,14 @@
 			name = Views;
 			sourceTree = "<group>";
 		};
+		C22193612523000900993C89 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				C2E3CC1624C3AA2700260CA0 /* PhotoListViewController.swift */,
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
 		C29EC5F724C2DDCB003220D8 = {
 			isa = PBXGroup;
 			children = (
@@ -157,8 +165,8 @@
 				C29EC61124C2DDCD003220D8 /* Info.plist */,
 				C29EC60E24C2DDCD003220D8 /* LaunchScreen.storyboard */,
 				C2E3CC0C24C3701A00260CA0 /* Models */,
-				C2E3CC1624C3AA2700260CA0 /* PhotoListViewController.swift */,
 				C2E3CBEF24C2FEB200260CA0 /* Protocols */,
+				C22193612523000900993C89 /* View Controllers */,
 				C2E3CC0F24C378D200260CA0 /* ViewModels */,
 				C2070BB124C40B5400D14940 /* Views */,
 			);
