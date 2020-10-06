@@ -113,7 +113,7 @@ final class PhotoListViewController: UIViewController {
             .isLoading
             .drive(onNext: { [weak self] isLoading in
                 guard !isLoading else {
-                self?.refreshControl.beginRefreshing()
+                    self?.refreshControl.beginRefreshing()
                     return
                 }
                 self?.refreshControl.endRefreshing()
@@ -137,7 +137,9 @@ final class PhotoListViewController: UIViewController {
         let alertController = UIAlertController(title: error.title,
                                                 message: error.body,
                                                 preferredStyle: .alert)
-        let alertAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        let alertAction = UIAlertAction(title: "OK_TITLE".localized,
+                                        style: .default,
+                                        handler: nil)
         alertController.addAction(alertAction)
         self.present(alertController, animated: true, completion: nil)
     }

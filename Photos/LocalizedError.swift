@@ -14,5 +14,6 @@ struct LocalizedError: Error {
 }
 
 extension LocalizedError {
-    static let generic = LocalizedError(title: "Error", body: "Something went wrong. Please try again")
+    static let generic = LocalizedError(title: "GENERIC_ERROR_TITLE".localized,
+                                        body: "GENERIC_ERROR_MESSAGE".localized)
 }
