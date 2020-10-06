@@ -12,6 +12,11 @@ import RxSwift
 
 final class PhotoListViewController: UIViewController {
     
+    private enum Constants
+    {
+        static let estimatedRowHeight: CGFloat = 100.0
+    }
+    
     var listViewModel: PhotoListViewModelInterface?
     
     private let disposeBag = DisposeBag()
@@ -22,7 +27,7 @@ final class PhotoListViewController: UIViewController {
         let tableView = UITableView(frame: .zero)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 100.0
+        tableView.estimatedRowHeight = Constants.estimatedRowHeight
         return tableView
     }()
     
@@ -116,7 +121,7 @@ final class PhotoListViewController: UIViewController {
             .disposed(by: self.disposeBag)
         
         viewModel
-             .error
+            .error
             .drive(onNext: { [weak self] error in
                 guard let error = error else { return }
                 self?.handleError(error: error)

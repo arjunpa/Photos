@@ -36,7 +36,7 @@ final class PhotoTableViewCell: UITableViewCell {
         let label = UILabel(frame: .zero)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.setContentCompressionResistancePriority(.required, for: .vertical)
-        label.numberOfLines = 0
+        label.numberOfLines = .zero
         return label
     }()
     
@@ -70,9 +70,9 @@ final class PhotoTableViewCell: UITableViewCell {
                     self.descriptionLabel.removeFromSuperview()
                 }
             },
-            onError: nil,
-            onCompleted: nil,
-            onDisposed: nil)
+                       onError: nil,
+                       onCompleted: nil,
+                       onDisposed: nil)
             .disposed(by: self.disposeBag)
         
         self.photoImageView.image = nil
@@ -106,7 +106,7 @@ final class PhotoTableViewCell: UITableViewCell {
             self.labelStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -8.0)
         ])
         let aspectRatioConstraint = self.photoImageView.heightAnchor.constraint(equalTo: self.photoImageView.widthAnchor,
-                                                                            multiplier: 1.0/2.0)
+                                                                                multiplier: 1.0/2.0)
         aspectRatioConstraint.priority = .defaultHigh
         aspectRatioConstraint.isActive = true
     }

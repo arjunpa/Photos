@@ -21,7 +21,8 @@ struct PhotoListResponse: Decodable {
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.title = try container.decode(String.self, forKey: .title)
-        self.rows = try container.decode([SafeDecodable<Photo>].self, forKey: .rows).compactMap({ $0.underlyingBase })
+        self.rows = try container.decode([SafeDecodable<Photo>].self,
+                                         forKey: .rows).compactMap({ $0.underlyingBase })
     }
 }
 
