@@ -12,9 +12,9 @@ import RxSwift
 
 final class PhotoListViewController: UIViewController {
     
-    private enum Constants
-    {
-        static let estimatedRowHeight: CGFloat = 100.0
+    private enum Constants {
+        static let estimatedRowHeight: CGFloat = 80.0
+        static let listBackgroundColorHex = "#F2F2F7"
     }
     
     var listViewModel: PhotoListViewModelInterface?
@@ -63,6 +63,8 @@ final class PhotoListViewController: UIViewController {
         ])
         self.photoListView.register(PhotoTableViewCell.self, forCellReuseIdentifier: PhotoTableViewCell.reuseIdentifier)
         self.photoListView.refreshControl = self.refreshControl
+        self.photoListView.separatorStyle = .none
+        self.photoListView.backgroundColor = UIColor(hexString: Constants.listBackgroundColorHex)
     }
     
     private func setupBindings() {

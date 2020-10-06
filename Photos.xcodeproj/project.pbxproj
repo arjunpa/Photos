@@ -15,6 +15,8 @@
 		C2070BBB24C428E500D14940 /* PhotoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2070BBA24C428E500D14940 /* PhotoTableViewCell.swift */; };
 		C2219363252361E000993C89 /* PhotoListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2219362252361E000993C89 /* PhotoListViewModelTests.swift */; };
 		C28573E4252CD669001753FE /* ContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28573E3252CD669001753FE /* ContainerView.swift */; };
+		C28573E6252CD7E5001753FE /* UIView+ConstraintInsets.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28573E5252CD7E5001753FE /* UIView+ConstraintInsets.swift */; };
+		C28573E8252CE5E7001753FE /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28573E7252CE5E7001753FE /* UIColor+Hex.swift */; };
 		C292675824C446D2007B131E /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C292675724C446D2007B131E /* ImageDownloader.swift */; };
 		C29EC60424C2DDCB003220D8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C29EC60324C2DDCB003220D8 /* AppDelegate.swift */; };
 		C29EC60D24C2DDCD003220D8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C29EC60C24C2DDCD003220D8 /* Assets.xcassets */; };
@@ -63,6 +65,8 @@
 		C2070BBA24C428E500D14940 /* PhotoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoTableViewCell.swift; sourceTree = "<group>"; };
 		C2219362252361E000993C89 /* PhotoListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoListViewModelTests.swift; sourceTree = "<group>"; };
 		C28573E3252CD669001753FE /* ContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerView.swift; sourceTree = "<group>"; };
+		C28573E5252CD7E5001753FE /* UIView+ConstraintInsets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+ConstraintInsets.swift"; sourceTree = "<group>"; };
+		C28573E7252CE5E7001753FE /* UIColor+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
 		C292675724C446D2007B131E /* ImageDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
 		C29EC60024C2DDCB003220D8 /* Photos.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Photos.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C29EC60324C2DDCB003220D8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -223,6 +227,8 @@
 			children = (
 				C2070BB824C41B8500D14940 /* Data+UTF8Representation.swift */,
 				C2E3CBF824C310FE00260CA0 /* URLRequest+RequestMethod.swift */,
+				C28573E5252CD7E5001753FE /* UIView+ConstraintInsets.swift */,
+				C28573E7252CE5E7001753FE /* UIColor+Hex.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -441,12 +447,14 @@
 				C29EC60424C2DDCB003220D8 /* AppDelegate.swift in Sources */,
 				C2E3CC1524C3A2CC00260CA0 /* LocalizedError.swift in Sources */,
 				C2070BBB24C428E500D14940 /* PhotoTableViewCell.swift in Sources */,
+				C28573E8252CE5E7001753FE /* UIColor+Hex.swift in Sources */,
 				C2E3CC0B24C36DE900260CA0 /* Request.swift in Sources */,
 				C2E3CBF924C310FE00260CA0 /* URLRequest+RequestMethod.swift in Sources */,
 				C2E3CC0924C36D4800260CA0 /* PhotoListRepository.swift in Sources */,
 				C2E3CC1724C3AA2700260CA0 /* PhotoListViewController.swift in Sources */,
 				C2E3CBFD24C311F400260CA0 /* APIServiceError.swift in Sources */,
 				C2E3CC1324C3911900260CA0 /* PhotoViewModel.swift in Sources */,
+				C28573E6252CD7E5001753FE /* UIView+ConstraintInsets.swift in Sources */,
 				C2E3CBF124C2FF0D00260CA0 /* Requestable.swift in Sources */,
 				C292675824C446D2007B131E /* ImageDownloader.swift in Sources */,
 				C2E3CBF624C30CBD00260CA0 /* RequestURLEncoding.swift in Sources */,

@@ -12,7 +12,7 @@ import RxSwift
 
 protocol PhotoViewModelInterface {
     var title: Driver<String> { get }
-    var description: Driver<String?> { get }
+    var description: Driver<String> { get }
     var image: Driver<UIImage?>  { get }
     func downloadImage()
     func cancelDownload()
@@ -20,17 +20,11 @@ protocol PhotoViewModelInterface {
 
 final class PhotoViewModel: PhotoViewModelInterface {
     
-    var title: Driver<String> {
-        return self.titleRelaySubject.asDriver(onErrorJustReturn: "")
-    }
+    let title: Driver<String>
     
-    var description: Driver<String?> {
-        return self.descriptionRelaySubject.asDriver(onErrorJustReturn: nil)
-    }
+    let description: Driver<String>
     
-    var image: Driver<UIImage?> {
-        return self.imageRelaySubject.asDriver(onErrorJustReturn: nil)
-    }
+    let image: Driver<UIImage?>
     
     private let photo: Photo
     
@@ -38,7 +32,7 @@ final class PhotoViewModel: PhotoViewModelInterface {
     
     private let titleRelaySubject: BehaviorRelay<String>
     
-    private let descriptionRelaySubject: BehaviorRelay<String?>
+    private let descriptionRelaySubject: BehaviorRelay<String>
     
     private let imageRelaySubject = BehaviorRelay<UIImage?>(value: nil)
     
@@ -49,8 +43,12 @@ final class PhotoViewModel: PhotoViewModelInterface {
     init(photo: Photo, imageDownloader: ImageDownloader = .default) {
         self.photo = photo
         self.titleRelaySubject = BehaviorRelay<String>(value: photo.title)
-        self.descriptionRelaySubject = BehaviorRelay<String?>(value: photo.description)
+        self.descriptionRelaySubject = BehaviorRelay<String>(value: photo.description)
         self.imageDownloader = imageDownloader
+        
+        self.title = self.titleRelaySubject.asDriver(onErrorJustReturn: "")
+        self.description = self.descriptionRelaySubject.asDriver(onErrorJustReturn: "")
+        self.image = self.imageRelaySubject.asDriver(onErrorJustReturn: nil)
     }
     
     func downloadImage() {

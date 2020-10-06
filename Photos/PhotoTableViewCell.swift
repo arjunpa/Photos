@@ -11,6 +11,25 @@ import RxSwift
 
 final class PhotoTableViewCell: UITableViewCell {
     
+    private enum Constants {
+        static let containerInsets = UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16)
+        static let stackViewSpacing: CGFloat = 16.0
+        static let backgroundColorHex = "#F2F2F7"
+        static let cornerRadius: CGFloat = 14.0
+        static let titleFont = UIFont.boldSystemFont(ofSize: 17.0)
+        static let imageViewWidthMultiplier: CGFloat = 0.17
+        static let imageViewAspectRatioMultiplier: CGFloat = 0.6
+        
+        static let eightSpacing: CGFloat = 8.0
+        static let twelveSpacing: CGFloat = 12.0
+    }
+    
+    private let containerView: ContainerView = {
+        let containerView = ContainerView(frame: .zero)
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        return containerView
+    }()
+    
     private let photoImageView: UIImageView = {
         let imageView = UIImageView(frame: .zero)
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -18,9 +37,10 @@ final class PhotoTableViewCell: UITableViewCell {
     }()
     
     private let labelStackView: UIStackView = {
-        let stackView = UIStackView(frame: .zero)
-        stackView.axis = .vertical
+        let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.spacing = Constants.stackViewSpacing
+        stackView.axis = .vertical
         return stackView
     }()
     
@@ -28,7 +48,7 @@ final class PhotoTableViewCell: UITableViewCell {
         let label = UILabel(frame: .zero)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
-        label.textAlignment = .center
+        label.font = Constants.titleFont
         return label
     }()
     
@@ -42,14 +62,40 @@ final class PhotoTableViewCell: UITableViewCell {
     
     private var disposeBag = DisposeBag()
     
+    private var needsSetupConstraints = true
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.setupConstraints()
+        self.configureUI()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        self.setupConstraints()
+        self.configureUI()
+    }
+    
+    override func prepareForReuse() {
+        self.disposeBag = DisposeBag()
+    }
+    
+    override class var requiresConstraintBasedLayout: Bool {
+        return true
+    }
+    
+    override func updateConstraints() {
+        if self.needsSetupConstraints {
+            self.setupConstraints()
+            self.needsSetupConstraints = !self.needsSetupConstraints
+        }
+        
+        super.updateConstraints()
+    }
+    
+    private func configureUI() {
+        self.contentView.backgroundColor = UIColor(hexString: Constants.backgroundColorHex)
+        self.containerView.cornerRadius = Constants.cornerRadius
+        self.photoImageView.layer.cornerRadius = Constants.cornerRadius
+        self.photoImageView.clipsToBounds = true
     }
     
     func configure(with viewModel: PhotoViewModelInterface) {
@@ -63,12 +109,7 @@ final class PhotoTableViewCell: UITableViewCell {
             .asObservable()
             .subscribe(onNext: { [weak self] description in
                 guard let self = self else { return }
-                if let description = description {
-                    self.descriptionLabel.text = description
-                    self.labelStackView.addArrangedSubview(self.descriptionLabel)
-                } else {
-                    self.descriptionLabel.removeFromSuperview()
-                }
+                self.descriptionLabel.text = description
             },
                        onError: nil,
                        onCompleted: nil,
@@ -86,28 +127,31 @@ final class PhotoTableViewCell: UITableViewCell {
         self.labelStackView.layoutIfNeeded()
     }
     
-    override func prepareForReuse() {
-        self.disposeBag = DisposeBag()
-    }
-    
     private func setupConstraints() {
-        self.contentView.addSubview(self.photoImageView)
-        self.contentView.addSubview(self.labelStackView)
+        
+        self.contentView.addSubview(self.containerView, insets: Constants.containerInsets)
+        self.containerView.addSubview(self.photoImageView)
+        self.containerView.addSubview(self.labelStackView)
         self.labelStackView.addArrangedSubview(self.titleLabel)
+        self.labelStackView.addArrangedSubview(self.descriptionLabel)
+        
+        let imageViewWidthConstraint = self.photoImageView.widthAnchor.constraint(equalTo: self.contentView.widthAnchor,
+                                                                                  multiplier: Constants.imageViewWidthMultiplier)
+        imageViewWidthConstraint.priority = .required
+        
+        let aspectRatioConstraint = self.photoImageView.heightAnchor.constraint(equalTo: self.photoImageView.widthAnchor,
+                                                                                multiplier: Constants.imageViewAspectRatioMultiplier)
+        aspectRatioConstraint.priority = .defaultHigh
         
         NSLayoutConstraint.activate([
-            self.photoImageView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
-            self.photoImageView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
-            self.photoImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor),
-            self.photoImageView.widthAnchor.constraint(equalTo: self.contentView.widthAnchor),
-            self.labelStackView.topAnchor.constraint(equalTo: self.photoImageView.bottomAnchor, constant: 8.0),
-            self.labelStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
-            self.labelStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
-            self.labelStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -8.0)
+            self.photoImageView.leadingAnchor.constraint(equalTo: self.containerView.leadingAnchor, constant: Constants.eightSpacing),
+            self.photoImageView.topAnchor.constraint(equalTo: self.containerView.topAnchor, constant: Constants.eightSpacing),
+            self.labelStackView.topAnchor.constraint(equalTo: self.containerView.topAnchor, constant: Constants.twelveSpacing),
+            self.labelStackView.leadingAnchor.constraint(equalTo: self.photoImageView.trailingAnchor, constant: Constants.eightSpacing),
+            self.containerView.trailingAnchor.constraint(equalTo: self.labelStackView.trailingAnchor, constant: Constants.eightSpacing),
+            self.containerView.bottomAnchor.constraint(equalTo: self.labelStackView.bottomAnchor, constant: Constants.eightSpacing),
+            imageViewWidthConstraint,
+            aspectRatioConstraint
         ])
-        let aspectRatioConstraint = self.photoImageView.heightAnchor.constraint(equalTo: self.photoImageView.widthAnchor,
-                                                                                multiplier: 1.0/2.0)
-        aspectRatioConstraint.priority = .defaultHigh
-        aspectRatioConstraint.isActive = true
     }
 }
