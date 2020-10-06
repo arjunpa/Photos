@@ -20,6 +20,10 @@ protocol PhotoViewModelInterface {
 
 final class PhotoViewModel: PhotoViewModelInterface {
     
+    private enum Constants {
+        static let placeholderImageName = "place-holder-image"
+    }
+    
     let title: Driver<String>
     
     let description: Driver<String>
@@ -40,6 +44,10 @@ final class PhotoViewModel: PhotoViewModelInterface {
     
     private var downloadTask: BehaviorRelay<ImageDownloadCancellable?>?
     
+    private var placeHolderImage: UIImage? {
+        return UIImage(named: Constants.placeholderImageName)
+    }
+    
     init(photo: Photo, imageDownloader: ImageDownloader = .default) {
         self.photo = photo
         self.titleRelaySubject = BehaviorRelay<String>(value: photo.title)
@@ -53,15 +61,18 @@ final class PhotoViewModel: PhotoViewModelInterface {
     
     func downloadImage() {
         guard let imageURL = self.photo.imageHref else {
-            self.imageRelaySubject.accept(nil)
+            self.imageRelaySubject.accept(placeHolderImage)
             return
         }
+        
+        self.imageRelaySubject.accept(placeHolderImage)
+        
         let result = self.imageDownloader.download(with: imageURL)
         result.event.subscribe(onSuccess: { [weak self] image in
-                                    self?.imageRelaySubject.accept(image)
+                                    self?.imageRelaySubject.accept(image ?? self?.placeHolderImage)
                      },
                                onError: { [weak self] _ in
-                                    self?.imageRelaySubject.accept(nil)
+                                    self?.imageRelaySubject.accept(self?.placeHolderImage)
         }).disposed(by: self.disposeBag)
         self.downloadTask = result.task
     }

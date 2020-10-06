@@ -17,11 +17,13 @@ final class PhotoTableViewCell: UITableViewCell {
         static let backgroundColorHex = "#F2F2F7"
         static let cornerRadius: CGFloat = 14.0
         static let titleFont = UIFont.boldSystemFont(ofSize: 17.0)
-        static let imageViewWidthMultiplier: CGFloat = 0.17
+        static let imageViewWidthMultiplier: CGFloat = 0.2
         static let imageViewAspectRatioMultiplier: CGFloat = 0.6
         
         static let eightSpacing: CGFloat = 8.0
         static let twelveSpacing: CGFloat = 12.0
+        
+        static let imageViewMaxHeight: CGFloat = 150
     }
     
     private let containerView: ContainerView = {
@@ -33,6 +35,7 @@ final class PhotoTableViewCell: UITableViewCell {
     private let photoImageView: UIImageView = {
         let imageView = UIImageView(frame: .zero)
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleToFill
         return imageView
     }()
     
@@ -135,23 +138,26 @@ final class PhotoTableViewCell: UITableViewCell {
         self.labelStackView.addArrangedSubview(self.titleLabel)
         self.labelStackView.addArrangedSubview(self.descriptionLabel)
         
-        let imageViewWidthConstraint = self.photoImageView.widthAnchor.constraint(equalTo: self.contentView.widthAnchor,
-                                                                                  multiplier: Constants.imageViewWidthMultiplier)
-        imageViewWidthConstraint.priority = .required
-        
-        let aspectRatioConstraint = self.photoImageView.heightAnchor.constraint(equalTo: self.photoImageView.widthAnchor,
-                                                                                multiplier: Constants.imageViewAspectRatioMultiplier)
-        aspectRatioConstraint.priority = .defaultHigh
-        
         NSLayoutConstraint.activate([
-            self.photoImageView.leadingAnchor.constraint(equalTo: self.containerView.leadingAnchor, constant: Constants.eightSpacing),
-            self.photoImageView.topAnchor.constraint(equalTo: self.containerView.topAnchor, constant: Constants.eightSpacing),
-            self.labelStackView.topAnchor.constraint(equalTo: self.containerView.topAnchor, constant: Constants.twelveSpacing),
-            self.labelStackView.leadingAnchor.constraint(equalTo: self.photoImageView.trailingAnchor, constant: Constants.eightSpacing),
-            self.containerView.trailingAnchor.constraint(equalTo: self.labelStackView.trailingAnchor, constant: Constants.eightSpacing),
-            self.containerView.bottomAnchor.constraint(equalTo: self.labelStackView.bottomAnchor, constant: Constants.eightSpacing),
-            imageViewWidthConstraint,
-            aspectRatioConstraint
+            self.photoImageView.leadingAnchor.constraint(equalTo: self.containerView.leadingAnchor,
+                                                         constant: Constants.eightSpacing),
+            self.photoImageView.topAnchor.constraint(equalTo: self.containerView.topAnchor,
+                                                     constant: Constants.eightSpacing),
+            self.labelStackView.topAnchor.constraint(equalTo: self.containerView.topAnchor,
+                                                     constant: Constants.twelveSpacing),
+            self.labelStackView.leadingAnchor.constraint(equalTo: self.photoImageView.trailingAnchor,
+                                                         constant: Constants.eightSpacing),
+            self.containerView.trailingAnchor.constraint(equalTo: self.labelStackView.trailingAnchor,
+                                                         constant: Constants.eightSpacing),
+            self.containerView.bottomAnchor.constraint(equalTo: self.labelStackView.bottomAnchor,
+                                                       constant: Constants.eightSpacing),
+            self.photoImageView.widthAnchor.constraint(equalTo: self.contentView.widthAnchor,
+                                                       multiplier: Constants.imageViewWidthMultiplier),
+            self.photoImageView.heightAnchor.constraint(equalTo: self.photoImageView.widthAnchor,
+                                                        multiplier: Constants.imageViewAspectRatioMultiplier),
+            
+            /* Because of the width relationship, the imageView might grow too much on phones with larger width, so set the maximum height for the imageView. */
+            self.photoImageView.widthAnchor.constraint(lessThanOrEqualToConstant: Constants.imageViewMaxHeight)
         ])
     }
 }
